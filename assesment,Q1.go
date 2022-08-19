@@ -7,13 +7,18 @@ package main
 import (
 	"fmt"
 	"strings"
+	"unicode"
 )
 
 func CapitalizeEveryThirdAlphanumericChar(position int, input string) string {
 	input = strings.ToLower(input)
+	charIndex := 1
 	for pos := range []rune(input) {
-		if pos%position == 0 && pos > 0 {
-			input = input[:pos-1] + strings.ToUpper(string(input[pos-1])) + input[pos:]
+		if unicode.IsLetter(rune(input[pos])) {
+			if charIndex%position == 0 {
+				input = input[:pos] + strings.ToUpper(string(input[pos])) + input[pos+1:]
+			}
+			charIndex++
 		}
 	}
 	return input
@@ -25,6 +30,7 @@ func main() {
 	s := CapitalizeEveryThirdAlphanumericChar(3, "Aspiration.com")
 	fmt.Println(s)
 }
+
 
 
 // 	that capitalizes *only* every third alphanumeric character of a string, so that if I hand you
