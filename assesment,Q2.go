@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"unicode"
 )
 
 type Interface interface {
@@ -15,8 +16,9 @@ type Interface interface {
 }
 
 type inputStruct struct {
-	input    string
-	position int
+	input     string
+	position  int
+	charIndex int
 }
 
 func (i *inputStruct) GetValueAsRuneSlice() []rune {
@@ -24,8 +26,11 @@ func (i *inputStruct) GetValueAsRuneSlice() []rune {
 }
 
 func (i *inputStruct) TransformRune(pos int) {
-	if pos%i.position == 0 && pos > 0 {
-		i.input = i.input[:pos-1] + strings.ToUpper(string(i.input[pos-1])) + i.input[pos:]
+	if unicode.IsLetter(rune(i.input[pos])) {
+		if i.charIndex%i.position == 0 {
+			i.input = i.input[:pos] + strings.ToUpper(string(i.input[pos])) + i.input[pos+1:]
+		}
+		i.charIndex++
 	}
 }
 
@@ -41,7 +46,7 @@ func (i inputStruct) String() string {
 }
 
 func NewSkipString(pos int, input string) inputStruct {
-	return inputStruct{input: strings.ToLower(input), position: pos}
+	return inputStruct{input: strings.ToLower(input), position: pos, charIndex: 1}
 }
 
 // And change your code to look like this:
