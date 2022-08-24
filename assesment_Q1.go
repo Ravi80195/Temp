@@ -9,7 +9,11 @@ import (
 	"strings"
 	"unicode"
 )
-
+//Below method would transform the the input rune to the expected output.
+//It has logic implemented where we have logic to check if it is a unicode character and if it is a unicode character then we check for the position.
+//We check for the position for every third character ignoring the special characters in previous condition.
+//If the 3 position is found we capitalize the character at that particular position.
+//We do it in a similar way for all the characters.
 func CapitalizeEveryThirdAlphanumericChar(position int, input string) string {
 	input = strings.ToLower(input)
 	charIndex := 1
@@ -27,7 +31,7 @@ func CapitalizeEveryThirdAlphanumericChar(position int, input string) string {
 
 // And change your code to look like this:
 func main() {
-	s := CapitalizeEveryThirdAlphanumericChar(3, "As.piration.com")
+	s := CapitalizeEveryThirdAlphanumericChar(3, "Aspiration.com")
 	fmt.Println(s)
 }
 
